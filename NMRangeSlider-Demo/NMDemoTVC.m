@@ -9,7 +9,10 @@
 
 #import "NMDemoTVC.h"
 
-@interface NMDemoTVC ()
+@interface NMDemoTVC () <NMRangeSliderDelegate>
+
+@property (weak, nonatomic) IBOutlet UILabel *standardSliderLowerValueLabel;
+@property (weak, nonatomic) IBOutlet UILabel *standardSliderUpperValueLabel;
 
 @end
 
@@ -67,12 +70,19 @@
 #pragma mark - Standard Slider
 
 
-- (void) configureStandardSlider
+- (void)configureStandardSlider
 {
+    self.standardSlider.delegate = self;
+    self.standardSlider.stepValue = 0.1;
     self.standardSlider.lowerValue = 0.23;
     self.standardSlider.upperValue = 0.53;
 }
 
+- (void)sliderDidChangeWithLower:(NSNumber *)lowerValue withUpper:(NSNumber *)upperValue
+{
+    self.standardSliderLowerValueLabel.text = [NSString stringWithFormat:@"%.2f",[lowerValue floatValue]];
+    self.standardSliderUpperValueLabel.text = [NSString stringWithFormat:@"%.2f",[upperValue floatValue]];
+}
 
 // ------------------------------------------------------------------------------------------------------
 
