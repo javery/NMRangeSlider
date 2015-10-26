@@ -197,13 +197,14 @@ NSUInteger DeviceSystemMajorVersion() {
                              [self layoutSubviews];
                              
                          } completion:^(BOOL finished) {
-                             
+                             [self updateDelegateWithLower:self.lowerValue andUpper:self.upperValue];
                          }];
         
     }
     else
     {
         setValuesBlock();
+        [self updateDelegateWithLower:self.lowerValue andUpper:self.upperValue];
     }
 
 }
@@ -646,7 +647,6 @@ NSUInteger DeviceSystemMajorVersion() {
         {
             _upperHandle.highlighted=NO;
             [self bringSubviewToFront:_lowerHandle];
-            
             [self setLowerValue:newValue animated:_stepValueContinuously ? YES : NO];
         }
         else
@@ -704,4 +704,13 @@ NSUInteger DeviceSystemMajorVersion() {
     [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
+- (void)updateDelegateWithLower:(CGFloat)lower andUpper:(CGFloat)upper
+{
+    if ([self.delegate respondsToSelector:@selector(sliderDidChangeWithLower:withUpper:)]) {
+        NSNumber *lowerValue = [NSNumber numberWithFloat:lower];
+        NSNumber *upperValue = [NSNumber numberWithFloat:upper];
+        [self.delegate performSelector:@selector(sliderDidChangeWithLower:withUpper:) withObject:lowerValue withObject:upperValue];
+    }
+}
+                                                                                                                                                       
 @end
