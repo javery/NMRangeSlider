@@ -700,8 +700,12 @@ NSUInteger DeviceSystemMajorVersion() {
         [self setLowerValue:_lowerValue animated:YES];
         [self setUpperValue:_upperValue animated:YES];
     }
-    
+
     [self sendActionsForControlEvents:UIControlEventValueChanged];
+    
+    if ([self.delegate respondsToSelector:@selector(sliderFinishChanging)]) {
+        [self.delegate performSelector:@selector(sliderFinishChanging) withObject:nil];
+    }
 }
 
 - (void)updateDelegateWithLower:(CGFloat)lower andUpper:(CGFloat)upper

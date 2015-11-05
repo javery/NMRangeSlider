@@ -14,6 +14,7 @@
 @optional
 
 - (void)sliderDidChangeWithLower:(NSNumber *)lowerValue withUpper:(NSNumber *)upperValue;
+- (void)sliderFinishChanging;
 
 @end
 
