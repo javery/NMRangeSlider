@@ -13,6 +13,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *standardSliderLowerValueLabel;
 @property (weak, nonatomic) IBOutlet UILabel *standardSliderUpperValueLabel;
+@property (nonatomic, assign) CGFloat standardSliderMinValue;
+@property (nonatomic, assign) CGFloat standardSliderMaxValue;
 
 @end
 
@@ -80,8 +82,16 @@
 
 - (void)sliderDidChangeWithLower:(NSNumber *)lowerValue withUpper:(NSNumber *)upperValue
 {
+    self.standardSliderMinValue = [lowerValue floatValue];
+    self.standardSliderMaxValue = [upperValue floatValue];
     self.standardSliderLowerValueLabel.text = [NSString stringWithFormat:@"%.2f",[lowerValue floatValue]];
     self.standardSliderUpperValueLabel.text = [NSString stringWithFormat:@"%.2f",[upperValue floatValue]];
+}
+
+- (void)sliderFinishChanging
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Slider finished changing!" message:[NSString stringWithFormat:@"values stopped at [%f .. %f]", self.standardSliderMinValue, self.standardSliderMaxValue] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    [alert show];
 }
 
 // ------------------------------------------------------------------------------------------------------
